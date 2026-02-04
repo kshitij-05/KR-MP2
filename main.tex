@@ -65,7 +65,7 @@ Before we look at spin-separated $E_{\textbf{MP2}}$, we need to realize that not
     \bar{g}_{i_\alpha j_\alpha}^{a_\alpha b_\alpha} &= g_{i_\alpha j_\alpha}^{a_\alpha b_\alpha} - g_{j_\alpha i_\alpha}^{a_\alpha b_\alpha} \quad \\
     \mathrm{ and } \quad 
     \bar{g}_{i_\alpha j_\beta}^{a_\alpha b_\beta} &=  g_{i_\alpha j_\beta}^{a_\alpha b_\beta} - 0 \quad \\ 
-    (g_{j_\beta i_\alpha }^{a_\alpha b_\beta} & \text{ is zero due to violation of column spin equality})
+    (g_{j_\beta i_\alpha }^{a_\alpha b_\beta} & \text{ is zero due to violation of column spin symmetry})
 \end{align}
 Decomposing the energy expression into its individual spin components,
 \begin{align}
@@ -133,12 +133,12 @@ Now consider $2E_{\alpha \beta}^{\alpha \beta}$:
        \bigl(g_{i_\alpha j_\beta}^{a_\alpha b_\beta} - g_{j_\beta i_\alpha}^{a_\alpha b_\beta}\bigr).
        \label{eq:emp2-ab-fully-expanded}
 \end{align}
-The second term in each bracket vanishes because they violate column spin equivalence, and hence $2E_{\alpha \beta}^{\alpha \beta}$ reduces to
+The second term in each bracket vanishes because it violates column spin equivalence, and hence $2E_{\alpha \beta}^{\alpha \beta}$ reduces to
 \begin{align}\label{eq:emp2-abab}
     2E_{\alpha \beta}^{\alpha \beta}
     &= \frac{1}{2} t_{a_\alpha b_\beta}^{i_\alpha j_\beta} g_{i_\alpha j_\beta}^{a_\alpha b_\beta}.
 \end{align}
-Similarly for $2E_{\beta \alpha}^{\alpha \beta}$, the first terms in the antisymmetrization brackets vanish and we are left with
+Similarly, for $2E_{\beta \alpha}^{\alpha \beta}$, the first terms in the antisymmetrization brackets vanish, and we are left with
 \begin{align}\label{eq:emp2-abba}
     2E_{\beta \alpha }^{\alpha \beta}
     &= \frac{1}{2} t_{a_\alpha b_\beta}^{i_\alpha j_\beta} g_{i_\alpha j_\beta}^{a_\alpha b_\beta}.
@@ -151,7 +151,7 @@ Therefore, substituting the results of \cref{eq:emp2-aaaa,eq:emp2-bbbb,eq:emp2-a
 \end{align}
 
 \section{Spin-restricted non-relativistic MP2 energy}
-The spin-restricted expression from MP2 energy can be obtained from \cref{eq:EUMP2} by simply dropping the spin indices as
+The spin-restricted expression for MP2 energy can be obtained from \cref{eq:EUMP2} by simply dropping the spin indices as
 \begin{align}
     E_{\text{RMP2}} &= \frac{1}{2} t_{a b}^{i j}
        \bigl( g_{i j}^{a b} - g_{j i}^{a b} \bigr) + \frac{1}{2} t_{a b}^{i j} 
@@ -160,29 +160,54 @@ The spin-restricted expression from MP2 energy can be obtained from \cref{eq:EUM
        \bigl( 2g_{i j}^{a b} - g_{j i}^{a b} \bigr)\label{eq:ERMP2}
 \end{align}
 
-\section{Kramers unrestricted relativistic MP2 energy}
+\section{Kramers restricted relativistic MP2 energy}
 
-If $i$ denotes a spinor (Kramers up), then let $\bar{i}$ denote the time reversed version (Kramers down) of $i$, i.e.,
+If $P$ denotes a spinor (Kramers up), then let $\bar{P}$ denote\footnote{Note: $\bar{}$ over an index denotes time reversal and $\bar{}$ over an operator denotes antisymmetrization} the time reversed version (Kramers down) of $P$ , i.e.,
 \begin{align}
-   |i \rangle = \mathcal{T}| \bar{i} \rangle
+   |P \rangle = \mathcal{T}| \bar{P} \rangle; \quad \{  |P \rangle \} \cup \{  |\bar{P} \rangle \} = \{  |p \rangle \}
 \end{align}
-where $\mathcal{T}$ is the time reversal operator.
+where $\mathcal{T}$ is the time reversal operator:
 \begin{align}
     \mathcal{T} = \begin{cases}
-        i\boldsymbol{\sigma_y} \hat{K}_0, &   2-component\\
-        i\boldsymbol{\Sigma_y} \hat{K}_0, &   4-component  
+        i\boldsymbol{\sigma_y} \hat{K}_0, &  \text{2-component}\\
+        i\boldsymbol{\Sigma_y} \hat{K}_0, &   \text{4-component}  
     \end{cases}
 \end{align}
 and $\hat{K}_0$ is the complex conjugation operator.
 
 
 
-Due the symmetry of the matrix elements under time reversal, the following relationships arise for electron repulsion integrals for closed shell systems:
+Due to the symmetry of the matrix elements under time reversal, the following relationships arise for electron repulsion integrals for closed shell systems:
 \begin{align}
-    {g}_{pq}^{rs} ={g^*}_{\bar{p}\bar{q}}^{\bar{r}\bar{s}} &= {g^*}_{\bar{p}s}^{\bar{r}q} = {g^*}_{r\bar{q}}^{p\bar{s}}\\
-    -{g^*}_{ \bar{q}r }^{ sp } = -{g^*}_{ r \bar{q} }^{ p s } = {g}_{ q p }^{ \bar{s}r } = {g}_{ p q }^{ r\bar{s} } &= -{g^*}_{ s \bar{r} }^{ \bar{q}\bar{p} } = -{g^*}_{ \bar{r} s }^{ \bar{p} \bar{q}} = {g^*}_{ \bar{s} \bar{p} }^{ q \bar{r} } = {g^*}_{ \bar{p} \bar{s}  }^{ \bar{r} q } \\
-    {g^*}_{ \bar{r} \bar{s}  }^{ p q } &= {g}_{ p q }^{ \bar{r} \bar{s} } \\
-    {g^*}_{ \bar{p} q  }^{ r \bar{s} } &= {g}_{ p \bar{q}  }^{ \bar{r} s }
+    {g}_{PQ}^{RS} ={g^*}_{\bar{P}\bar{Q}}^{\bar{R}\bar{S}} &= {g^*}_{\bar{P}S}^{\bar{R}Q} = {g^*}_{R\bar{Q}}^{P\bar{S}}\\
+    -{g^*}_{ \bar{Q}R }^{ SP } = -{g^*}_{ R \bar{Q} }^{ P S } = {g}_{ Q P }^{ \bar{S}R } = {g}_{ P Q }^{ R\bar{S} } &= -{g^*}_{ S \bar{R} }^{ \bar{Q}\bar{P} } = -{g^*}_{ \bar{R} S }^{ \bar{P} \bar{Q}} = {g^*}_{ \bar{S} \bar{P} }^{ Q \bar{R} } = {g^*}_{ \bar{P} \bar{S}  }^{ \bar{R} Q } \\
+    {g^*}_{ \bar{R} \bar{S}  }^{ P Q } &= {g}_{ P Q }^{ \bar{R} \bar{S} } \\
+    {g^*}_{ \bar{P} Q  }^{ R \bar{S} } &= {g}_{ P \bar{Q}  }^{ \bar{R} S }
 \end{align}
+
+Let's rewrite the MP2 energy expression, separating it into each Kramers pair permuted blocks,
+\begin{align}
+    E_{\text{MP2}} 
+    = \frac{1}{4} \biggl[ &\bar{t}_{ A B }^{ I J } \bar{g}_{ I J }^{ A B } \\
+    + &\bar{t}_{ \bar{A} B }^{ I J } \bar{g}_{ I J }^{ \bar{A} B } 
+    + \bar{t}_{ A \bar{B} }^{ I J } \bar{g}_{ I J }^{ A \bar{B} } 
+    + \bar{t}_{ A B }^{ \bar{I} J } \bar{g}_{ \bar{I} J }^{ A B }
+    + \bar{t}_{ A B }^{ I \bar{J} } \bar{g}_{ I \bar{J} }^{ A B }\\
+    + &\bar{t}_{ \bar{A} \bar{B} }^{ I J } \bar{g}_{ I J }^{ \bar{A} \bar{B} }
+    + \bar{t}_{ A B }^{ \bar{I} \bar{J} } \bar{g}_{ \bar{I} \bar{J} }^{ A B } 
+    + \bar{t}_{ \bar{A} B }^{ \bar{I} J } \bar{g}_{ \bar{I} J }^{ \bar{A} B } 
+    + \bar{t}_{ A \bar{B} }^{ I \bar{J} } \bar{g}_{ I \bar{J} }^{ A \bar{B} }
+    + \bar{t}_{ A \bar{B} }^{ \bar{I} J } \bar{g}_{ \bar{I} J }^{ A \bar{B} }
+    + \bar{t}_{ \bar{A} B }^{ I \bar{J} } \bar{g}_{ I \bar{J} }^{ \bar{A} B } \\
+    +& \bar{t}_{ A \bar{B} }^{ \bar{I} \bar{J} } \bar{g}_{ \bar{I} \bar{J} }^{ A \bar{B} } 
+    + \bar{t}_{ \bar{A} B }^{ \bar{I} \bar{J} } \bar{g}_{ \bar{I} \bar{J} }^{ \bar{A} B }
+    + \bar{t}_{ \bar{A} \bar{B} }^{ I \bar{J} } \bar{g}_{ I \bar{J} }^{ \bar{A} \bar{B} }
+    + \bar{t}_{ \bar{A} \bar{B}  }^{ \bar{I} J } \bar{g}_{ \bar{I} J }^{ \bar{A} \bar{B}  } \\
+    +& \bar{t}_{ \bar{A} \bar{B} }^{ \bar{I} \bar{J} } \bar{g}_{ \bar{I} \bar{J} }^{ \bar{A} \bar{B} }
+    \biggr]
+    \label{eq:MP2-spin-split-expand}
+\end{align}
+
+
 
 \end{document}
