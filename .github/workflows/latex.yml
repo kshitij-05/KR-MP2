@@ -1,38 +1,27 @@
-name: KR-MP2
+name: Build LaTeX PDF
 
 on:
   push:
     branches: [ main ]
 
 permissions:
-  contents: write    # needed so the workflow can push the PDF
+  contents: write  # allow pushing back to the repo
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up TeX Live
-        uses: xu-cheng/texlive-action@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v4
         with:
-          scheme: small
-          run: |
-            apk add make
-            latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+          root_file: main.tex
 
-      - name: Commit and push PDF
-        if: success()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add main.pdf
-          # Avoid infinite loops: do nothing if no changes
-          if git diff --cached --quiet; then
-            echo "No PDF changes, skipping commit."
-            exit 0
-          fi
-          git commit -m "Update compiled PDF [skip ci]"
-          git push
+      - name: Commit compiled PDF
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: main.pdf
+          commit_message: "Update compiled PDF [skip ci]"
