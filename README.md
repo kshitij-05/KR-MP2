@@ -20,8 +20,8 @@ The document is written in `book` class with 11pt oneside layout and uses standa
 The current content focuses on:
 
 - Spin-unrestricted non-relativistic MP2 energy and its spin decomposition.
-- Spin-restricted MP2 energy obtained by dropping explicit spin indices.
-- Kramers-unrestricted relativistic MP2 with time-reversal symmetry relations between electron repulsion integrals.
+- Spin-restricted MP2 energys.
+- Kramers-restricted relativistic MP2 using time-reversal symmetry.
 
 You can compile locally with any reasonably complete TeX Live installation, for example via:
 
