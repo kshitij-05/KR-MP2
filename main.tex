@@ -1,0 +1,188 @@
+\documentclass[11pt,oneside]{book}
+
+% ---------- Packages ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm} % math + theorems [web:6]
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{margin=1in}
+
+
+% ============ hyperlinks and clever reference
+\usepackage{hyperref} % hyperref must be placed before cleveref
+\hypersetup{colorlinks=true, citecolor=blue, urlcolor=blue, linkcolor=blue}
+\usepackage{cleveref}
+  	\crefname{figure}{Figure}{Figures}
+  	\crefname{table}{Table}{Tables}
+  	\crefname{equation}{Eq.}{Eqs.}
+  	\crefname{section}{Section}{Sections}
+  	\crefname{subsection}{Section}{Sections}
+  	\crefname{subsubsection}{Section}{Sections}
+  	\crefname{algorithm}{Algorithm}{Algorithms}
+    \crefname{appendix}{Appendix}{Appendices}
+
+% ---------- Document ----------
+\begin{document}
+
+\frontmatter
+\tableofcontents
+
+\mainmatter
+
+% ==============================
+\chapter{Spin vs Kramers restricted MP2}
+\label{ch:SR-vs-KR}
+
+\section{Spin-unrestricted non-relativistic MP2 energy}
+
+The non-relativistic MP2 energy in spin-orbitals, assuming Einstein summation, is
+\begin{align}
+    E_{\text{MP2}} &= \frac{1}{4} \bar{t}_{ab}^{ij} \bar{g}_{ij}^{ab} .
+\end{align}
+Here, $\bar{g}_{ij}^{ab}$ denotes the antisymmetrized electron repulsion integrals,
+\begin{align}
+    \bar{g}_{ij}^{ab} 
+    &= g_{ij}^{ab} - g_{ji}^{ab} = \langle ij | ab \rangle - \langle ji | ab \rangle = \langle ij \Vert ab \rangle,\\
+    g_{ij}^{ab} &=  \langle ij | ab \rangle = \iint \phi_i^*(\mathbf{r1}) \phi_j^*(\mathbf{r2}) \frac{1}{|\mathbf{r1} - \mathbf{r2}|} \phi_a(\mathbf{r1}) \phi_b(\mathbf{r2}) d\mathbf{r1} d\mathbf{r2}
+\end{align}
+and
+\begin{align}
+    \bar{t}_{ab}^{ij} = \frac{\bar{g}_{ab}^{ij}}{\epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b} = \frac{\bar{g}_{ab}^{ij}}{\Delta_{ab}^{ij}}
+\end{align}
+are the antisymmetrized MP2 amplitudes, where $\epsilon_p$ are the orbital energies. Indices $i$ and $j$ denote occupied orbitals, while indices $a$ and $b$ denote virtual orbitals.
+Note:
+\begin{align}
+    {g}_{ij}^{ab} =  {g}_{ji}^{ba} = {g^*}_{ab}^{ij} =   {g^*}_{ba}^{ji}
+\end{align}
+Before we look at spin-separated $E_{\textbf{MP2}}$, we need to realize that not all spin-combinations are non-zero. This can be understood by working out the spin-block separation of $\bar{g}_{ij}^{ab}$:
+\begin{align}
+    \bar{g}_{ij}^{ab} &= \bar{g}_{i_\alpha j_\alpha}^{a_\alpha b_\alpha} + \bar{g}_{i_\beta j_\beta}^{a_\beta b_\beta} + \bar{g}_{i_\alpha j_\beta}^{a_\alpha b_\beta}  + \bar{g}_{i_\beta j_\alpha}^{a_\beta b_\alpha} + \bar{g}_{i_\beta j_\alpha}^{a_\alpha b_\beta} + \bar{g}_{i_\alpha j_\beta}^{a_\beta b_\alpha} \nonumber \\
+    \bar{g}_{i_\alpha j_\alpha}^{a_\alpha b_\alpha} &= g_{i_\alpha j_\alpha}^{a_\alpha b_\alpha} - g_{j_\alpha i_\alpha}^{a_\alpha b_\alpha} \quad \\
+    \mathrm{ and } \quad 
+    \bar{g}_{i_\alpha j_\beta}^{a_\alpha b_\beta} &=  g_{i_\alpha j_\beta}^{a_\alpha b_\beta} - 0 \quad \\ 
+    (g_{j_\beta i_\alpha }^{a_\alpha b_\beta} & \text{ is zero due to violation of column spin equality})
+\end{align}
+Decomposing the energy expression into its individual spin components,
+\begin{align}
+    E_{\text{MP2}} &= E_{\alpha \alpha}^{\alpha \alpha}
+    + E_{\beta \beta}^{\beta \beta}
+    + E_{\alpha \beta}^{\alpha \beta}
+    + E_{\beta \alpha}^{\beta \alpha}
+    + E_{\beta \alpha}^{\alpha \beta}
+    + E_{\alpha \beta}^{\beta \alpha}\label{eq:emp2-partitioned} \\
+    &= \frac{1}{4} \biggl[ \bar{t}_{a_\alpha b_\alpha}^{i_\alpha j_\alpha} \bar{g}_{i_\alpha j_\alpha}^{a_\alpha b_\alpha}
+    + \bar{t}_{a_\beta b_\beta}^{i_\beta j_\beta} \bar{g}_{i_\beta j_\beta}^{a_\beta b_\beta}
+    +  \bar{t}_{a_\alpha b_\beta}^{i_\alpha j_\beta} \bar{g}_{i_\alpha j_\beta}^{a_\alpha b_\beta} 
+    +  \bar{t}_{a_\beta b_\alpha}^{i_\beta j_\alpha} \bar{g}_{i_\beta j_\alpha}^{a_\beta b_\alpha} 
+    + \bar{t}_{a_\beta b_\alpha}^{i_\alpha j_\beta} \bar{g}_{i_\alpha j_\beta}^{a_\beta b_\alpha}
+    + \bar{t}_{a_\alpha b_\beta}^{i_\beta j_\alpha} \bar{g}_{i_\beta j_\alpha}^{a_\alpha b_\beta} \biggr]
+    \label{eq:MP2-spin-split-expand}
+\end{align}
+Note that $E_{\alpha \beta}^{\alpha \beta} = E_{\beta \alpha}^{\beta \alpha}$ in \cref{eq:MP2-spin-split-expand}. This can be seen by considering the fourth term in \cref{eq:MP2-spin-split-expand}, which, upon swapping the columns of both $\bar{t}$ and $\bar{g}$ and then swapping the dummy indices, becomes identical to the third term in \cref{eq:MP2-spin-split-expand}. Similarly, it can also be seen that $E_{\beta \alpha}^{\alpha \beta}= E_{\alpha \beta}^{\beta \alpha}$. Consequently, \cref{eq:MP2-spin-split-expand} can be rewritten as
+\begin{align}
+    E_{\text{MP2}} 
+    &= \frac{1}{4} \bar{t}_{a_\alpha b_\alpha}^{i_\alpha j_\alpha} \bar{g}_{i_\alpha j_\alpha}^{a_\alpha b_\alpha}
+     + \frac{1}{4} \bar{t}_{a_\beta b_\beta}^{i_\beta j_\beta} \bar{g}_{i_\beta j_\beta}^{a_\beta b_\beta} 
+     + \frac{1}{2} \bar{t}_{a_\alpha b_\beta}^{i_\alpha j_\beta} \bar{g}_{i_\alpha j_\beta}^{a_\alpha b_\beta} 
+     + \frac{1}{2} \bar{t}_{a_\beta b_\alpha}^{i_\alpha j_\beta} \bar{g}_{i_\alpha j_\beta}^{a_\beta b_\alpha}.
+         \label{eq:MP2-spin-split-compact}
+\end{align}
+
+Now consider the tensor network for $E_{\alpha \alpha}^{\alpha \alpha}$ only:
+\begin{align}
+    E_{\alpha \alpha}^{\alpha \alpha}
+    &= \frac{1}{4} \bar{t}_{a_\alpha b_\alpha}^{i_\alpha j_\alpha} \bar{g}_{i_\alpha j_\alpha}^{a_\alpha b_\alpha}\\
+    &= \frac{1}{4} 
+       \bigl(  t_{a_\alpha b_\alpha}^{i_\alpha j_\alpha} - t_{b_\alpha a_\alpha}^{i_\alpha j_\alpha} \bigr)
+       \bigl( g_{i_\alpha j_\alpha}^{a_\alpha b_\alpha} - g_{j_\alpha i_\alpha}^{a_\alpha b_\alpha} \bigr) \\
+    &= \frac{1}{4} \bigl[ 
+        t_{a_\alpha b_\alpha}^{i_\alpha j_\alpha} g_{i_\alpha j_\alpha}^{a_\alpha b_\alpha}
+      - t_{a_\alpha b_\alpha}^{i_\alpha j_\alpha} g_{j_\alpha i_\alpha}^{a_\alpha b_\alpha}  
+      - t_{b_\alpha a_\alpha}^{i_\alpha j_\alpha} g_{i_\alpha j_\alpha}^{a_\alpha b_\alpha}
+      + t_{b_\alpha a_\alpha}^{i_\alpha j_\alpha} g_{j_\alpha i_\alpha}^{a_\alpha b_\alpha} 
+      \bigr] .
+      \label{eq:emp2-aa-fully-expanded}
+\end{align}
+The last term in \cref{eq:emp2-aa-fully-expanded} is equal to the first term, which can be seen by swapping the column indices of $g$ and then exchanging the dummy indices $a_\alpha$ and $b_\alpha$. An analogous relation holds between the second and third terms in \cref{eq:emp2-aa-fully-expanded}. Therefore, the expression for $E_{\alpha \alpha}$ can be written in a compact form as
+\begin{align}
+    E_{\alpha \alpha}^{\alpha \alpha}
+    &= \frac{1}{2} \bigl[ 
+        t_{a_\alpha b_\alpha}^{i_\alpha j_\alpha} g_{i_\alpha j_\alpha}^{a_\alpha b_\alpha}
+      - t_{a_\alpha b_\alpha}^{i_\alpha j_\alpha} g_{j_\alpha i_\alpha}^{a_\alpha b_\alpha}  
+    \bigr] \\
+    &= \frac{1}{2} t_{a_\alpha b_\alpha}^{i_\alpha j_\alpha}
+       \bigl( g_{i_\alpha j_\alpha}^{a_\alpha b_\alpha} - g_{j_\alpha i_\alpha}^{a_\alpha b_\alpha} \bigr)\label{eq:emp2-aaaa}.
+\end{align}
+Similarly, the expression for $E_{\beta \beta}^{\beta \beta}$ can be written in compact form as
+\begin{align}\label{eq:emp2-bbbb}
+    E_{\beta \beta}^{\beta \beta}
+    &= \frac{1}{2} t_{a_\beta b_\beta}^{i_\beta j_\beta} 
+       \bigl( g_{i_\beta j_\beta}^{a_\beta b_\beta} - g_{j_\beta i_\beta}^{a_\beta b_\beta} \bigr) .
+\end{align}
+Now consider $2E_{\alpha \beta}^{\alpha \beta}$:
+\begin{align}
+    2E_{\alpha \beta}^{\alpha \beta} 
+    &= \frac{1}{2} \bar{t}_{a_\alpha b_\beta}^{i_\alpha j_\beta} \bar{g}_{i_\alpha j_\beta}^{a_\alpha b_\beta} \\
+    &= \frac{1}{2}
+       \bigl(t_{a_\alpha b_\beta}^{i_\alpha j_\beta} - t_{b_\beta a_\alpha}^{i_\alpha j_\beta}\bigr)
+       \bigl(g_{i_\alpha j_\beta}^{a_\alpha b_\beta} - g_{j_\beta i_\alpha}^{a_\alpha b_\beta}\bigr).
+       \label{eq:emp2-ab-fully-expanded}
+\end{align}
+The second term in each bracket vanishes because they violate column spin equivalence, and hence $2E_{\alpha \beta}^{\alpha \beta}$ reduces to
+\begin{align}\label{eq:emp2-abab}
+    2E_{\alpha \beta}^{\alpha \beta}
+    &= \frac{1}{2} t_{a_\alpha b_\beta}^{i_\alpha j_\beta} g_{i_\alpha j_\beta}^{a_\alpha b_\beta}.
+\end{align}
+Similarly for $2E_{\beta \alpha}^{\alpha \beta}$, the first terms in the antisymmetrization brackets vanish and we are left with
+\begin{align}\label{eq:emp2-abba}
+    2E_{\beta \alpha }^{\alpha \beta}
+    &= \frac{1}{2} t_{a_\alpha b_\beta}^{i_\alpha j_\beta} g_{i_\alpha j_\beta}^{a_\alpha b_\beta}.
+\end{align}
+Therefore, substituting the results of \cref{eq:emp2-aaaa,eq:emp2-bbbb,eq:emp2-abab,eq:emp2-abba} into \cref{eq:MP2-spin-split-compact}, we get the expression for the total unrestricted MP2 energy as:
+\begin{align}\label{eq:EUMP2}
+    E_{\text{UMP2}} = \frac{1}{2} t_{a_\alpha b_\alpha}^{i_\alpha j_\alpha}
+       \bigl( g_{i_\alpha j_\alpha}^{a_\alpha b_\alpha} - g_{j_\alpha i_\alpha}^{a_\alpha b_\alpha} \bigr) + \frac{1}{2} t_{a_\beta b_\beta}^{i_\beta j_\beta} 
+       \bigl( g_{i_\beta j_\beta}^{a_\beta b_\beta} - g_{j_\beta i_\beta}^{a_\beta b_\beta} \bigr) + t_{a_\alpha b_\beta}^{i_\alpha j_\beta} g_{i_\alpha j_\beta}^{a_\alpha b_\beta}
+\end{align}
+
+\section{Spin-restricted non-relativistic MP2 energy}
+The spin-restricted expression from MP2 energy can be obtained from \cref{eq:EUMP2} by simply dropping the spin indices as
+\begin{align}
+    E_{\text{RMP2}} &= \frac{1}{2} t_{a b}^{i j}
+       \bigl( g_{i j}^{a b} - g_{j i}^{a b} \bigr) + \frac{1}{2} t_{a b}^{i j} 
+       \bigl( g_{i j}^{a b} - g_{j i}^{a b} \bigr) + t_{a b}^{i j} g_{i j}^{a b} \\
+       &=t_{a b}^{i j}
+       \bigl( 2g_{i j}^{a b} - g_{j i}^{a b} \bigr)\label{eq:ERMP2}
+\end{align}
+
+\section{Kramers unrestricted relativistic MP2 energy}
+
+If $i$ denotes a spinor (Kramers up), then let $\bar{i}$ denote the time reversed version (Kramers down) of $i$, i.e.,
+\begin{align}
+   |i \rangle = \mathcal{T}| \bar{i} \rangle
+\end{align}
+where $\mathcal{T}$ is the time reversal operator.
+\begin{align}
+    \mathcal{T} = \begin{cases}
+        i\boldsymbol{\sigma_y} \hat{K}_0, &   2-component\\
+        i\boldsymbol{\Sigma_y} \hat{K}_0, &   4-component  
+    \end{cases}
+\end{align}
+and $\hat{K}_0$ is the complex conjugation operator.
+
+
+
+Due the symmetry of the matrix elements under time reversal, the following relationships arise for electron repulsion integrals for closed shell systems:
+\begin{align}
+    {g}_{pq}^{rs} ={g^*}_{\bar{p}\bar{q}}^{\bar{r}\bar{s}} &= {g^*}_{\bar{p}s}^{\bar{r}q} = {g^*}_{r\bar{q}}^{p\bar{s}}\\
+    -{g^*}_{ \bar{q}r }^{ sp } = -{g^*}_{ r \bar{q} }^{ p s } = {g}_{ q p }^{ \bar{s}r } = {g}_{ p q }^{ r\bar{s} } &= -{g^*}_{ s \bar{r} }^{ \bar{q}\bar{p} } = -{g^*}_{ \bar{r} s }^{ \bar{p} \bar{q}} = {g^*}_{ \bar{s} \bar{p} }^{ q \bar{r} } = {g^*}_{ \bar{p} \bar{s}  }^{ \bar{r} q } \\
+    {g^*}_{ \bar{r} \bar{s}  }^{ p q } &= {g}_{ p q }^{ \bar{r} \bar{s} } \\
+    {g^*}_{ \bar{p} q  }^{ r \bar{s} } &= {g}_{ p \bar{q}  }^{ \bar{r} s }
+\end{align}
+
+\end{document}

@@ -1,0 +1,63 @@
+\documentclass[]{article}
+
+\usepackage{a4wide}
+\usepackage{comment}
+\usepackage{color,soul}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{mhchem}
+\usepackage{hhline}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\usepackage{todonotes}
+\newcommand{\efvsays}[1]{\todo{EFV: #1}}
+
+\newcommand{\pointRaised}[1]{\textbf{Comment}: {\itshape #1} \par }
+\newcommand{\response}[1]{\textbf{Response}: {#1}}
+
+\title{Response to the Reviewers' Comments}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+
+\textcolor{red}{
+\tt $>>$ REVIEWER 1 $<<$
+}
+
+\begin{itemize}
+
+\item
+\pointRaised{quote point 1 verbatim}
+\response{If agree, make changes and say ``we adjusted the text accordingly''. If it typo/mistake/gross oversight on our part thank them for pointing it out. If disagree, point out why}
+
+\item \pointRaised{quote point 2 verbatim}
+
+\response{}
+
+\end{itemize}
+
+\textcolor{red}{
+\tt $>>$ REVIEWER 2 $<<$
+}
+
+\begin{itemize}
+
+\item
+\pointRaised{}
+\response{}
+
+\end{itemize}
+
+
+\end{document}
