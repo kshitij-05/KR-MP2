@@ -208,6 +208,132 @@ Let's rewrite the MP2 energy expression, separating it into each Kramers pair pe
     \label{eq:MP2-spin-split-expand}
 \end{align}
 
+\section{Reduction of the 16-block expansion}
+\label{sec:KR-MP2-reduction}
 
+The 16-block expansion of \cref{eq:MP2-spin-split-expand} reduces to a
+much smaller, structurally compact form by exploiting two properties:
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Time-reversal symmetry (TRS) folding.} For closed-shell
+    Kramers-restricted references, summands related by full
+    bar-flip $X \leftrightarrow \bar{X}$ on every index are complex
+    conjugates of one another. Each pair collapses via
+    $A + A^{*} = 2\,\Re A$ (or $A - A^{*} = 2i\,\Im A$), so each
+    conjugate-pair becomes a single $\Re$- or $\Im$-marked summand.
+
+    \item \textbf{Antisymmetrizer recombination.} Direct/exchange pairs
+    of non-symmetric tensors produced by the trace merge back into
+    single antisymmetric tensors $\bar{g}$, $\bar{t}$ over the
+    Kramers-restricted index space.
+\end{enumerate}
+
+The resulting six-term Kramers-restricted MP2 energy expression
+($I, J, A, B$ are Kramers-up dummy indices, $\bar{I}, \bar{A}, \dots$
+are their Kramers-down partners; $\bar{g}, \bar{t}$ denote
+antisymmetric tensors; $\Re[\cdot]$ marks an evaluation-time real-part
+of a closed contraction) is:
+\begin{align}
+    E_{\text{MP2}}^{\text{KR}} =\;\;
+    & -\,\Re\!\left[\, g^{A_1 A_2}_{I_1 I_2}\,
+                       \bar{t}^{I_2 I_1}_{A_1 A_2}\, \right] \nonumber\\
+    & +\,\Re\!\left[\, \bar{g}^{A_1 \bar{A}_1}_{I_1 \bar{I}_1}\,
+                       \bar{t}^{I_1 \bar{I}_1}_{A_1 \bar{A}_1}\, \right] \nonumber\\
+    & +\,\Re\!\left[\, g^{\bar{A}_1 \bar{A}_2}_{I_1 I_2}\,
+                       \bar{t}^{I_1 I_2}_{\bar{A}_1 \bar{A}_2}\, \right] \nonumber\\
+    & +\,2\,\Re\!\left[\, g^{A_1 \bar{A}_1}_{I_1 I_2}\,
+                          t^{I_1 I_2}_{A_1 \bar{A}_1}\, \right] \nonumber\\
+    & -\,2\,\Re\!\left[\, g^{A_1 \bar{A}_1}_{\bar{I}_1 \bar{I}_2}\,
+                          t^{\bar{I}_2 \bar{I}_1}_{A_1 \bar{A}_1}\, \right] \nonumber\\
+    & -\,2\,\Re\!\left[\, g^{A_1 A_2}_{I_1 \bar{I}_1}\,
+                          \bar{t}^{I_1 \bar{I}_1}_{A_2 A_1}\, \right] .
+    \label{eq:KR-MP2-six-terms}
+\end{align}
+
+The structure makes the cost breakdown explicit: one
+doubly-antisymmetrized $\bar{g}\cdot\bar{t}$ term (line 2), three
+singly-antisymmetrized $g\cdot\bar{t}$ terms (lines 1, 3, 6), and two
+non-antisymmetrized $g\cdot t$ terms (lines 4, 5).
+
+\section{Complex (Re/Im) split: real-arithmetic form for closed-shell
+1eX2C}
+\label{sec:KR-MP2-csplit}
+
+For a closed-shell 1eX2C reference the spin-free Coulomb operator
+spin-traces each per-electron transition density to its
+\emph{complex scalar} Pauli component, so every tensor in
+\cref{eq:KR-MP2-six-terms} is intrinsically complex (2-component);
+there is no quaternion structure to exploit and a 4-component
+(quaternion) decomposition would over-decompose the expression for
+zero benefit.
+
+The \emph{minimal} real-arithmetic form is therefore the 2-component
+\emph{complex split}: rewrite each complex tensor as two real tensors
+\begin{align}
+    g \;&=\; \Re g \;+\; i\,\Im g,
+    \qquad
+    g^{*} \;=\; \Re g \;-\; i\,\Im g, \\
+    t \;&=\; \Re t \;+\; i\,\Im t,
+    \qquad
+    t^{*} \;=\; \Re t \;-\; i\,\Im t,
+\end{align}
+and propagate complex arithmetic symbolically. Each
+$\Re[\,g\cdot t\,]$ summand of \cref{eq:KR-MP2-six-terms} expands as
+\begin{equation}
+    \Re\!\left[\, g \cdot t \,\right] \;=\;
+        \Re g \cdot \Re t \;-\; \Im g \cdot \Im t,
+    \label{eq:csplit-Re-product}
+\end{equation}
+which is a difference of two products of \emph{real} tensors. The full
+six-term Kramers-restricted MP2 energy expression in the
+complex-split form (with $\Re g$, $\Im g$, $\Re t$, $\Im t$ all real)
+is:
+\begin{align}
+    E_{\text{MP2}}^{\text{KR,c-split}} =\;\;
+    & -\,\Re\!\left[\,
+        \Re g^{A_1 A_2}_{I_1 I_2}\,
+        \bar{\Re t}^{I_2 I_1}_{A_1 A_2}
+      - \Im g^{A_1 A_2}_{I_1 I_2}\,
+        \bar{\Im t}^{I_2 I_1}_{A_1 A_2}
+      \,\right] \nonumber\\
+    & +\,\Re\!\left[\,
+        \bar{\Re g}^{A_1 \bar{A}_1}_{I_1 \bar{I}_1}\,
+        \bar{\Re t}^{I_1 \bar{I}_1}_{A_1 \bar{A}_1}
+      - \bar{\Im g}^{A_1 \bar{A}_1}_{I_1 \bar{I}_1}\,
+        \bar{\Im t}^{I_1 \bar{I}_1}_{A_1 \bar{A}_1}
+      \,\right] \nonumber\\
+    & +\,\Re\!\left[\,
+        \Re g^{\bar{A}_1 \bar{A}_2}_{I_1 I_2}\,
+        \bar{\Re t}^{I_1 I_2}_{\bar{A}_1 \bar{A}_2}
+      - \Im g^{\bar{A}_1 \bar{A}_2}_{I_1 I_2}\,
+        \bar{\Im t}^{I_1 I_2}_{\bar{A}_1 \bar{A}_2}
+      \,\right] \nonumber\\
+    & +\,2\,\Re\!\left[\,
+        \Re g^{A_1 \bar{A}_1}_{I_1 I_2}\,
+        \Re t^{I_1 I_2}_{A_1 \bar{A}_1}
+      - \Im g^{A_1 \bar{A}_1}_{I_1 I_2}\,
+        \Im t^{I_1 I_2}_{A_1 \bar{A}_1}
+      \,\right] \nonumber\\
+    & -\,2\,\Re\!\left[\,
+        \Re g^{A_1 \bar{A}_1}_{\bar{I}_1 \bar{I}_2}\,
+        \Re t^{\bar{I}_2 \bar{I}_1}_{A_1 \bar{A}_1}
+      - \Im g^{A_1 \bar{A}_1}_{\bar{I}_1 \bar{I}_2}\,
+        \Im t^{\bar{I}_2 \bar{I}_1}_{A_1 \bar{A}_1}
+      \,\right] \nonumber\\
+    & -\,2\,\Re\!\left[\,
+        \Re g^{A_1 A_2}_{I_1 \bar{I}_1}\,
+        \bar{\Re t}^{I_1 \bar{I}_1}_{A_2 A_1}
+      - \Im g^{A_1 A_2}_{I_1 \bar{I}_1}\,
+        \bar{\Im t}^{I_1 \bar{I}_1}_{A_2 A_1}
+      \,\right] .
+    \label{eq:KR-MP2-csplit}
+\end{align}
+
+The outer $\Re[\cdot]$ wrappers are now structurally redundant ---
+every inner product is a product of real tensors and therefore real
+--- but they are retained as evaluation-dispatch markers so the inner
+contractions can be performed as real (DGEMM) rather than complex
+(ZGEMM) products. This is the cost win of the complex split versus
+\cref{eq:KR-MP2-six-terms}.
 
 \end{document}
